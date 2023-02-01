@@ -1,7 +1,12 @@
 <template>
   <div class="app">
-    <PostForm @create="createPost" />
-    <PostList :posts="posts" />
+    <div class="block">
+      <styled-button @click="showDialog">Добавить новый пост</styled-button>
+    </div>
+    <styled-dialog v-model:show="dialogVisible">
+      <PostForm @create="createPost" />
+    </styled-dialog>
+    <PostList :posts="posts" @remove="removePost" />
   </div>
 </template>
 
@@ -35,19 +40,34 @@ export default {
           data: "10.09.2022",
         },
       ],
+      dialogVisible: false,
     };
   },
   methods: {
     createPost(post) {
       this.posts.unshift(post);
+      this.dialogVisible = false;
     },
+    removePost(post) {
+      this.posts = this.posts.filter(p => p.id !== post.id);
+    },
+    showDialog() {
+      this.dialogVisible = true;
+    },
+    async fetchPosts() {},
   },
 };
 </script>
 
 <style>
 .app {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 2rem auto;
+  padding: 2rem;
+}
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
