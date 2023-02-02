@@ -1,19 +1,23 @@
 <template>
   <div class="post">
-    <div class="post__content"><div class="post__title">
-      <p>{{ post.title }}</p>
-      <p class="post__data">
-        {{ post.data }}
-      </p>
+    <div class="post__content">
+      <div class="post__title">
+        <p :contenteditable="isEdit" :class="{ edit__desc: isEdit }">
+          {{ post.title }}
+        </p>
+        <p class="post__data">
+          {{ post.data }}
+        </p>
+      </div>
+      <div
+        class="post__desc"
+        :contenteditable="isEdit"
+        :class="{ edit__desc: isEdit }"
+      >
+        {{ post.body }}
+      </div>
     </div>
-    <div
-      class="post__desc"
-      :contenteditable="isEdit"
-      :class="{ edit__desc: isEdit }"
-    >
-      {{ post.desc }}
-    </div></div>
-    
+
     <div class="btns">
       <button
         class="settings-btn"
@@ -57,7 +61,7 @@ export default {
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between
+  justify-content: space-between;
 }
 .post__title {
   text-transform: uppercase;
