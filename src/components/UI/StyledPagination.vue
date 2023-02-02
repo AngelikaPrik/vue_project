@@ -1,9 +1,16 @@
 <template>
-  <div class="pagination" @click="changePage" :value="modelValue">
-    <p v-for="page in totalPages" :key="page">
-      {{ page }}
-    </p>
-  </div>
+  <div class="pagination">
+      <div
+        class="page"
+        v-for="pageNum in totalPages"
+        :key="pageNum"
+		  :value="modelValue"
+        :class="{ currentPage: +modelValue === +pageNum }"
+        @click="changePage(pageNum)"
+      >
+        {{ pageNum }}
+      </div>
+    </div>
 </template>
 
 <script>
@@ -17,8 +24,8 @@ export default {
     },
   },
   methods: {
-    changePage(e) {
-      this.$emit("update:modelValue", +e.target.innerHTML);
+    changePage(p) {
+      this.$emit("update:modelValue", p);
     },
   },
 };
@@ -30,7 +37,7 @@ export default {
   column-gap: 5px;
   justify-content: center;
 }
-.pagination p {
+.page {
   font-size: 16px;
   background: #2c8c98;
   width: 28px;
@@ -43,8 +50,12 @@ export default {
   font-weight: 500;
   transition: opacity 0.1s linear;
 }
-.pagination p:hover {
+.page:hover {
   cursor: pointer;
   opacity: 0.5;
+}
+.currentPage {
+  font-size: 16px;
+  background: #15474e;
 }
 </style>
