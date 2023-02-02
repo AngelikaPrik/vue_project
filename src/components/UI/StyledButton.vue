@@ -10,7 +10,7 @@ export default {
 </script>
 <style scoped>
 .btn {
-  background: rgb(44, 140, 152);
+  background: #2c8c98;
   padding: 0.6rem 1rem;
   border: 0;
   border-radius: 0.4rem;

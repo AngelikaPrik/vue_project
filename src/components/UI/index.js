@@ -4,6 +4,7 @@ import StyledTextarea from "./StyledTextarea.vue";
 import StyledDialog from "./StyledDialog.vue";
 import StyledLoader from "./StyledLoader.vue";
 import StyledSelect from "./StyledSelect.vue";
+import StyledPagination from "./StyledPagination.vue";
 
 export default [
   StyledButton,
@@ -12,4 +13,5 @@ export default [
   StyledDialog,
   StyledLoader,
   StyledSelect,
+  StyledPagination,
 ];

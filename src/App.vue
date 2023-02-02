@@ -32,6 +32,17 @@
       @remove="removePost"
     />
     <styled-loader v-else></styled-loader>
+    <div class="pagination">
+      <div
+        class="page"
+        v-for="pageNum in totalPages"
+        :key="pageNum"
+        :class="{ currentPage: +page === +pageNum }"
+        @click="changePage(pageNum)"
+      >
+        {{ pageNum }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,6 +69,9 @@ export default {
       ],
       searchQuery: "",
       findingPosts: false,
+      page: 1,
+      limit: 10,
+      totalPages: 0,
     };
   },
   methods: {
@@ -75,9 +89,18 @@ export default {
       try {
         this.isPostsLoading = true;
         const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+          "https://jsonplaceholder.typicode.com/posts",
+          {
+            params: {
+              _page: this.page,
+              _limit: this.limit,
+            },
+          }
         );
         this.posts = response.data;
+        this.totalPages = Math.ceil(
+          response.headers["x-total-count"] / this.limit
+        );
       } catch (error) {
         throw new Error("Не удалось загрузить посты");
       } finally {
@@ -86,6 +109,12 @@ export default {
     },
     cleanSearchQuery() {
       this.searchQuery = "";
+    },
+    changePage(pageNum) {
+      if (this.page !== pageNum) {
+        this.page = pageNum;
+        this.fetchPosts();
+      }
     },
   },
   mounted() {
@@ -140,5 +169,33 @@ export default {
 .block__input span:hover {
   opacity: 0.4;
   cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  column-gap: 5px;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.page {
+  font-size: 16px;
+  background: #2c8c98;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+  transition: opacity 0.1s linear;
+}
+.page:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+.currentPage {
+  font-size: 16px;
+  background: #15474e;
 }
 </style>
