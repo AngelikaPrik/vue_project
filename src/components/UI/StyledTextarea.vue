@@ -21,7 +21,6 @@ export default {
 </script>
 <style scoped>
 .textarea {
-  margin-bottom: 0.8rem;
   padding: 0.5rem 0.5rem;
   border-radius: 0.4rem;
   outline: 0;

@@ -16,12 +16,11 @@ export default {
 </script>
 <style scoped>
 .input {
-  margin-bottom: 0.8rem;
   padding: 0.5rem 0.5rem;
   border-radius: 0.4rem;
   outline: 0;
   border: 0.2px solid rgba(128, 174, 180, 1);
-  width: 400px;
+  width: 100%;
   font-size: 18px;
 }
 </style>

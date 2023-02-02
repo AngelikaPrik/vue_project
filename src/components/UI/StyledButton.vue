@@ -11,14 +11,15 @@ export default {
 <style scoped>
 .btn {
   background: rgb(44, 140, 152);
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   border: 0;
   border-radius: 0.4rem;
   color: white;
   text-transform: uppercase;
-  font-weight: 600;
-  width: 180px;
+  font-weight: 500;
+  width: 100%;
   transition: background 0.1s linear;
+  font-size: 18px;
 }
 .btn:hover {
   cursor: pointer;
