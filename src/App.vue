@@ -1,18 +1,46 @@
 <template>
   <div class="app">
     <div class="block">
-      <styled-button @click="showDialog">Добавить новый пост</styled-button>
+      <div class="block__input">
+        <styled-button @click="showDialog">Добавить новый пост</styled-button>
+      </div>
+      <div class="block__input">
+        <styled-input
+          v-model="searchQuery"
+          placeholder="Поиск по постам..."
+        ></styled-input>
+        <span
+          class="material-symbols-outlined"
+          v-if="searchQuery"
+          @click="cleanSearchQuery"
+        >
+          close
+        </span>
+      </div>
     </div>
     <styled-dialog v-model:show="dialogVisible">
       <PostForm @create="createPost" />
     </styled-dialog>
-    <PostList :posts="posts" @remove="removePost" />
+
+    <PostList
+      v-if="!isPostsLoading"
+      :posts="searchSortedPost"
+      :selectedSort="selectedSort"
+      :sortOptions="sortOptions"
+      :findingPosts="findingPosts"
+      :searchQuery="searchQuery"
+      @remove="removePost"
+    />
+    <styled-loader v-else></styled-loader>
   </div>
 </template>
 
 <script>
 import PostForm from "./components/PostForm.vue";
 import PostList from "./components/PostList.vue";
+
+import axios from "axios";
+
 export default {
   components: {
     PostForm,
@@ -20,27 +48,16 @@ export default {
   },
   data() {
     return {
-      posts: [
-        {
-          id: 1,
-          title: "О JavaScript",
-          desc: "Когда JavaScript создавался, у него было другое имя – «LiveScript». Однако, язык Java был очень популярен в то время, и было решено, что позиционирование JavaScript как «младшего брата» Java будет полезно. Со временем JavaScript стал полностью независимым языком со своей собственной спецификацией, называющейся ECMAScript, и сейчас не имеет никакого отношения к Java.",
-          data: "15.01.2023",
-        },
-        {
-          id: 2,
-          title: "ООП во фронтенде",
-          desc: "Feature-Sliced Design (FSD) — это архитектурная методология для проектирования frontend-приложений. Проще говоря, это свод правил и соглашений по организации кода. Главная цель методологии — сделать проект понятным и структурированным, особенно в условиях регулярного изменения требований бизнеса.",
-          data: "15.11.2022",
-        },
-        {
-          id: 3,
-          title: "Стейт-менеджеры",
-          desc: "Сложность больших приложений нередко возрастает из-за распределения кусочков состояния по многим компонентам и связям между ними. Для решения этой проблемы, Vue предлагает Vuex: нашу собственную библиотеку управления состоянием, вдохновлённую языком Elm. Она даже интегрируется с Vue-devtools, из коробки давая доступ к функциональности “машины времени”.",
-          data: "10.09.2022",
-        },
-      ],
+      posts: [],
       dialogVisible: false,
+      isPostsLoading: false,
+      selectedSort: "",
+      sortOptions: [
+        { value: "title", name: "По названию" },
+        { value: "body", name: "По описанию" },
+      ],
+      searchQuery: "",
+      findingPosts: false,
     };
   },
   methods: {
@@ -54,7 +71,44 @@ export default {
     showDialog() {
       this.dialogVisible = true;
     },
-    async fetchPosts() {},
+    async fetchPosts() {
+      try {
+        this.isPostsLoading = true;
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+        );
+        this.posts = response.data;
+      } catch (error) {
+        throw new Error("Не удалось загрузить посты");
+      } finally {
+        this.isPostsLoading = false;
+      }
+    },
+    cleanSearchQuery() {
+      this.searchQuery = "";
+    },
+  },
+  mounted() {
+    this.fetchPosts();
+  },
+  computed: {
+    sortedPosts() {
+      return [...this.posts].sort((post1, post2) => {
+        post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]);
+      });
+    },
+    searchSortedPost() {
+      return this.sortedPosts.filter(post => {
+        if (post.title.toLowerCase().includes(this.searchQuery.toLowerCase())) {
+          this.findingPosts = true;
+          return post.title
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase());
+        } else {
+          this.findingPosts = false;
+        }
+      });
+    },
   },
 };
 </script>
@@ -67,7 +121,24 @@ export default {
 }
 .block {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+}
+.block__input {
+  display: flex;
+  align-items: stretch;
+  width: 30%;
+  position: relative;
+}
+.block__input span {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0, -50%);
+  transition: opacity 0.1s linear;
+}
+.block__input span:hover {
+  opacity: 0.4;
+  cursor: pointer;
 }
 </style>
