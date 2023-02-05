@@ -2,7 +2,7 @@
   <form class="form" @submit.prevent>
     <div class="form__content">
       <h4>Создание поста</h4>
-      <styled-input v-model.trim="post.title" />
+      <styled-input v-focus v-model.trim="post.title" />
       <styled-textarea v-model="post.body" />
       <styled-button @click="createPost"> Создать </styled-button>
     </div>

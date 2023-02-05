@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<h1>Main page</h1>
+		<h1>Основная страница</h1>
+		<!-- <router-link to="/posts">Посты</router-link>
+		<router-link to="/about">О приложении</router-link> -->
 	</div>
 </template>
 <script>

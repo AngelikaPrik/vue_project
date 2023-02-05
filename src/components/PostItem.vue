@@ -1,5 +1,5 @@
 <template>
-  <div class="post">
+  <div class="post" @click="$router.push(`/posts/${post.id}`)">
     <div class="post__content">
       <div class="post__title">
         <p :contenteditable="isEdit" :class="{ edit__desc: isEdit }">
@@ -62,6 +62,11 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: background .1s linear;
+}
+.post:hover {
+  cursor: pointer;
+  background: rgba(128, 174, 180, 0.3);
 }
 .post__title {
   text-transform: uppercase;
