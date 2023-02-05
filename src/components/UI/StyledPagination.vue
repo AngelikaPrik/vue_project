@@ -1,23 +1,23 @@
 <template>
   <div class="pagination">
-      <div
-        class="page"
-        v-for="pageNum in totalPages"
-        :key="pageNum"
-		  :value="modelValue"
-        :class="{ currentPage: +modelValue === +pageNum }"
-        @click="changePage(pageNum)"
-      >
-        {{ pageNum }}
-      </div>
+    <div
+      class="page"
+      v-for="pageNum in totalPages"
+      :key="pageNum"
+      :value="modelValue"
+      :class="{ currentPage: +modelValue === +pageNum }"
+      @click="changePage(pageNum)"
+    >
+      {{ pageNum }}
     </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: "styled-pagination",
   props: {
-    modelValue: Number,
+    modelValue: { type: Number },
     totalPages: {
       type: Number,
       required: true,

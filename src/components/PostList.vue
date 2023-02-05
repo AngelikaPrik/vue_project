@@ -2,7 +2,7 @@
   <div v-if="posts.length > 0">
     <div class="title">
       <h3 class="title-posts">Посты</h3>
-      <styled-select :modelValue="selectedSort" :options="sortOptions" />
+      <styled-select :value="selectedSort" :options="sortOptions" />
     </div>
     <div class="content">
       <transition-group name="list">

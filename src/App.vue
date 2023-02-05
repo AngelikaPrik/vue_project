@@ -32,7 +32,8 @@
       @remove="removePost"
     />
     <styled-loader v-else></styled-loader>
-    <styled-pagination v-model="page" style="margin-top: 2rem" :totalPages="totalPages" />
+    <div ref="observer" class="observer"></div>
+    <!-- <styled-pagination v-model="page" style="margin-top: 2rem" :totalPages="totalPages" /> -->
   </div>
 </template>
 
@@ -97,15 +98,48 @@ export default {
         this.isPostsLoading = false;
       }
     },
+    async loadMorePosts() {
+      try {
+        this.page += 1;
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts",
+          {
+            params: {
+              _page: this.page,
+              _limit: this.limit,
+            },
+          }
+        );
+
+        this.totalPages = Math.ceil(
+          response.headers["x-total-count"] / this.limit
+        );
+        this.posts = [...this.posts, ...response.data];
+      } catch (error) {
+        throw new Error("Не удалось загрузить посты");
+      }
+    },
     cleanSearchQuery() {
       this.searchQuery = "";
     },
-    changePage(pageNum) {
-      this.page = pageNum;
-    },
+    //  changePage(pageNum) {
+    //    this.page = pageNum;
+    //  },
   },
   mounted() {
     this.fetchPosts();
+
+    const options = {
+      rootMargin: "0px",
+      threshold: 1.0,
+    };
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting && this.page < this.totalPages) {
+        this.loadMorePosts()
+      }
+    };
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.$refs.observer);
   },
   computed: {
     sortedPosts() {
@@ -127,9 +161,9 @@ export default {
     },
   },
   watch: {
-    page() {
-      this.fetchPosts();
-    },
+    //  page() {
+    //    this.fetchPosts();
+    //  },
   },
 };
 </script>
@@ -161,5 +195,8 @@ export default {
 .block__input span:hover {
   opacity: 0.4;
   cursor: pointer;
+}
+.observer {
+  height: 30px;
 }
 </style>
