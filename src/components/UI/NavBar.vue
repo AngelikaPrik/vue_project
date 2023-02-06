@@ -4,6 +4,8 @@
     <div class="links">
       <div @click="$router.push('/posts')" class="link">Посты</div>
       <div @click="$router.push('/about')" class="link">О приложении</div>
+      <div @click="$router.push('/store')" class="link">С vuex</div>
+      <div @click="$router.push('/composition')" class="link">С composition api</div>
     </div>
   </div>
 </template>
