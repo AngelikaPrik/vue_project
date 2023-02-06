@@ -1,6 +1,6 @@
 <template>
-  <div class="post" @click="$router.push(`/posts/${post.id}`)">
-    <div class="post__content">
+  <div class="post">
+    <div class="post__content" @click="$router.push(`/posts/${post.id}`)">
       <div class="post__title">
         <p :contenteditable="isEdit" :class="{ edit__desc: isEdit }">
           {{ post.title }}

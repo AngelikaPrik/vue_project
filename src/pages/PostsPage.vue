@@ -21,22 +21,19 @@
     <styled-dialog v-model:show="dialogVisible">
       <PostForm @create="createPost" />
     </styled-dialog>
-
+    <div class="title">
+      <h3 class="title-posts">Посты</h3>
+      <styled-select v-model="selectedSort" :options="sortOptions" />
+    </div>
     <PostList
       v-if="!isPostsLoading"
       :posts="searchSortedPost"
-      :selectedSort="selectedSort"
-      :sortOptions="sortOptions"
       :findingPosts="findingPosts"
       :searchQuery="searchQuery"
       @remove="removePost"
     />
     <styled-loader v-else></styled-loader>
-    <div
-      v-intersection="loadMorePosts"
-      ref="observer"
-      class="observer"
-    ></div>
+    <div v-intersection="loadMorePosts" ref="observer" class="observer"></div>
     <!-- <styled-pagination v-model="page" style="margin-top: 2rem" :totalPages="totalPages" /> -->
   </div>
 </template>
@@ -173,6 +170,14 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0 1.5rem 0;
+}
+.title-posts {
+  text-align: center;
+}
 .block {
   display: flex;
   justify-content: space-between;

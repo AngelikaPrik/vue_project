@@ -1,9 +1,5 @@
 <template>
   <div v-if="posts.length > 0">
-    <div class="title">
-      <h3 class="title-posts">Посты</h3>
-      <styled-select :model-value="selectedSort" @update="$emit('update', selectedSort)" :options="sortOptions" />
-    </div>
     <div class="content">
       <transition-group name="list">
         <PostItem
@@ -32,14 +28,6 @@ export default {
       type: Array,
       required: true,
     },
-    selectedSort: {
-      type: String,
-      required: true,
-    },
-    sortOptions: {
-      type: Array,
-      required: true,
-    },
     findingPosts: {
       type: Boolean,
       required: true,
@@ -53,14 +41,6 @@ export default {
 </script>
 
 <style scoped>
-.title {
-  display: flex;
-  justify-content: space-between;
-  margin: 3rem 0 1.5rem 0;
-}
-.title-posts {
-  text-align: center;
-}
 .empty-title {
   text-align: center;
   margin: 2rem 0;

@@ -21,12 +21,13 @@
     <!-- <styled-dialog v-model:show="dialogVisible">
       <PostForm @create="createPost" />
     </styled-dialog> -->
-
+    <div class="title">
+      <h3 class="title-posts">Посты</h3>
+      <styled-select v-model="selectedSort" :options="sortOptions" />
+    </div>
     <PostList
       v-if="!isPostsLoading"
       :posts="sortedAndSearchedPosts"
-      :selectedSort="selectedSort"
-      :sortOptions="sortOptions"
       :findingPosts="findingPosts"
       :searchQuery="searchQuery"
       @remove="removePost"
@@ -78,6 +79,14 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0 1.5rem 0;
+}
+.title-posts {
+  text-align: center;
+}
 .block {
   display: flex;
   justify-content: space-between;

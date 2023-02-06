@@ -3,9 +3,9 @@
     <div @click="$router.push('/')" class="logo"><h3>LOGO</h3></div>
     <div class="links">
       <div @click="$router.push('/posts')" class="link">Посты</div>
-      <div @click="$router.push('/about')" class="link">О приложении</div>
       <div @click="$router.push('/store')" class="link">С vuex</div>
       <div @click="$router.push('/composition')" class="link">С composition api</div>
+      <div @click="$router.push('/about')" class="link">О приложении</div>
     </div>
   </div>
 </template>

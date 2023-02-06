@@ -1,12 +1,11 @@
 <template>
-  <select :value="modelValue" @change="changeOption" class="select">
-    <option disabled value="">Сортировать по</option>
-    <option v-for="option in options" :key="option.value" :value="option.value">
+  <select :modelValue="modelValue" @change="changeOption" class="select">
+    <option class="option" disabled value="">Выберите из списка</option>
+    <option class="option" v-for="option in options" :key="option.value" :value="option.value">
       {{ option.name }}
     </option>
   </select>
 </template>
->
 
 <script>
 export default {
@@ -27,7 +26,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .select {
   background: rgba(128, 174, 180, 0.4);
